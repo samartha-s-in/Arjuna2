@@ -233,6 +233,16 @@ show_progress "Installing Jetson Utilities"
 log "Installing jetson-stats (jtop)..."
 python3 -m pip install --user -U jetson-stats
 
+# Add Microsoft repository
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=arm64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list'
+rm microsoft.gpg
+
+# Install Edge
+sudo apt update
+sudo apt install -y microsoft-edge-stable
+
 # ------------------------------------------------------------------------------
 # STEP 6: ADD ROS 2 APT REPOSITORY
 # ------------------------------------------------------------------------------
